@@ -1,0 +1,13 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-mockery/extension.neon
+
+parameters:
+    level: 9
+    paths:
+        - app
+        - config
+        - database
+        - routes
+        - tests
+
