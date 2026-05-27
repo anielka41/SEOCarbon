@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables\Table;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use BackedEnum;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ final class MyListingResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string|Heroicon|null $navigationIcon = Heroicon::OutlinedListBullet;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedListBullet;
 
     public static function form(Schema $schema): Schema
     {
