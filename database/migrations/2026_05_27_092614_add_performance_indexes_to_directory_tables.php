@@ -13,19 +13,21 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->index(['is_active', 'sort_order']);
-            $table->index(['parent_id', 'is_active']);
+        Schema::table('categories', function (Blueprint $blueprint): void {
+            $blueprint->index(['is_active', 'sort_order']);
+            $blueprint->index(['parent_id', 'is_active']);
         });
 
-        Schema::table('listings', function (Blueprint $table) {
+        Schema::table('listings', function (Blueprint $blueprint): void {
             // Frequently used filters in directory search/listing
-            $table->index(['status', 'is_promoted', 'created_at']);
-            $table->index(['category_id', 'status', 'is_promoted']);
-            $table->index(['user_id', 'status']);
-            
-            // Full-text index for searching names and descriptions (MySQL 8+)
-            $table->fullText(['name', 'description']);
+            $blueprint->index(['status', 'is_promoted', 'created_at']);
+            $blueprint->index(['category_id', 'status', 'is_promoted']);
+            $blueprint->index(['user_id', 'status']);
+
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                // Full-text index for searching names and descriptions (MySQL 8+)
+                $blueprint->fullText(['name', 'description']);
+            }
         });
     }
 
@@ -34,16 +36,19 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->dropIndex(['is_active', 'sort_order']);
-            $table->dropIndex(['parent_id', 'is_active']);
+        Schema::table('categories', function (Blueprint $blueprint): void {
+            $blueprint->dropIndex(['is_active', 'sort_order']);
+            $blueprint->dropIndex(['parent_id', 'is_active']);
         });
 
-        Schema::table('listings', function (Blueprint $table) {
-            $table->dropIndex(['status', 'is_promoted', 'created_at']);
-            $table->dropIndex(['category_id', 'status', 'is_promoted']);
-            $table->dropIndex(['user_id', 'status']);
-            $table->dropFullText(['name', 'description']);
+        Schema::table('listings', function (Blueprint $blueprint): void {
+            $blueprint->dropIndex(['status', 'is_promoted', 'created_at']);
+            $blueprint->dropIndex(['category_id', 'status', 'is_promoted']);
+            $blueprint->dropIndex(['user_id', 'status']);
+
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $blueprint->dropFullText(['name', 'description']);
+            }
         });
     }
 };

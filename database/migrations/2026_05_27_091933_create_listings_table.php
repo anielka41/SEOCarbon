@@ -13,27 +13,27 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('listings', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('category_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('name');
-            $table->string('slug')->unique();
-            $table->string('url')->unique();
-            $table->text('description');
-            $table->longText('content')->nullable();
-            $table->string('logo_path')->nullable();
-            $table->string('thumbnail_path')->nullable();
-            $table->string('contact_email')->nullable();
-            $table->string('contact_phone')->nullable();
-            $table->string('address')->nullable();
-            $table->string('meta_title')->nullable();
-            $table->string('meta_description')->nullable();
-            $table->string('status')->default('pending');
-            $table->boolean('is_promoted')->default(false);
-            $table->timestamp('verified_at')->nullable();
-            $table->timestamp('expires_at')->nullable();
-            $table->timestamps();
+        Schema::create('listings', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->foreignId('category_id')->constrained()->cascadeOnDelete();
+            $blueprint->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $blueprint->string('name');
+            $blueprint->string('slug')->unique();
+            $blueprint->string('url')->unique();
+            $blueprint->text('description');
+            $blueprint->longText('content')->nullable();
+            $blueprint->string('logo_path')->nullable();
+            $blueprint->string('thumbnail_path')->nullable();
+            $blueprint->string('contact_email')->nullable();
+            $blueprint->string('contact_phone')->nullable();
+            $blueprint->string('address')->nullable();
+            $blueprint->string('meta_title')->nullable();
+            $blueprint->string('meta_description')->nullable();
+            $blueprint->string('status')->default('pending');
+            $blueprint->boolean('is_promoted')->default(false);
+            $blueprint->timestamp('verified_at')->nullable();
+            $blueprint->timestamp('expires_at')->nullable();
+            $blueprint->timestamps();
         });
     }
 

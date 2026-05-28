@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
+
 use function Laravel\Prompts\info;
 
-Artisan::command('inspire', function () {
+Artisan::command('inspire', function (): void {
     info(Inspiring::quote());
 })->purpose('Display an inspiring quote');

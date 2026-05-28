@@ -4,24 +4,14 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Description('Generate a development license key for SEOCarbon Dirs')]
+#[Signature('license:generate {domain=localhost} {--expires=2030-01-01}')]
 final class GenerateDevLicense extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
-    protected $signature = 'license:generate {domain=localhost} {--expires=2030-01-01}';
-
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Generate a development license key for SEOCarbon Dirs';
-
     /**
      * Execute the console command.
      */
@@ -32,20 +22,58 @@ final class GenerateDevLicense extends Command
         /** @var string $expires */
         $expires = $this->option('expires');
 
-        $privateKey = <<<EOD
+        $privateKey = <<<'EOD'
 -----BEGIN PRIVATE KEY-----
-MIIJQQIBADANBgkqhkiG9w0BAQEFAASCCSswggknAgEAAoICAQCRkQVhKnrw/3fq
-CjOoSVU+50OItJCEnqe42FOdGlSR1NSaLv3T5kKoqGs5Os3Luo/vAvvp7of3obp1
-mu8CQL5v7fuhQPIdHPV2CUmdR88MXcGMSAMnLd9ca9e2+rodM6DFS7PHUqOsf4ti
-tesi+qGIECR3yqX+BJJYi4V3pGhxHxHhEhRbOTW3wc2IAtQtUVIShapmoBNTyxaV
-S1mXsuYH0a9vrpmK6GDdTNsbxhIr9q0Qqj1+FnZ7s8xSY6WMvmABsMrELmAxmMAq
-HinoEwornAVPT8aY7E7HRpwCJfbrvSElOW5O5kGS8OmiglPvcwMPIV3f+Uukkv8Q
-oMsEjbhTSgxk+MM2lGGbpiI3P6YAxJWmR30HB8rff8Kp8uxnfZPlWlOJMEHFyoBH
-0Knjcpd23Z7+vXV/b4x2BNhaj5tK5okl+4iIDMNkKxA3Z1F+kKwBJcHgv+hFfGhd2
-Aqj6/dnyzEIVg/iHFMGgZz8UbfiLQ+KsBqvDlF/Tb6FnoqnL1sTFQvNuwzjZr5m+
-7eWZL8Z2CqxB6Df/6P5fzMgr+hrIYxx6vh/rnr7rAHOm0AYQex/CT2hBYPVpZvF8
-gKEVxJPNWPi4apecDipTrbMmSlDCuD6ounoLxROzcEk+/VLW+lA4DjEtvyUIo92N
-pEuj0TSvLX5Y3BkxyKidfjydA1CokCAwEAAQ==
+MIIJQgIBADANBgkqhkiG9w0BAQEFAASCCSwwggkoAgEAAoICAQC8j5+qGFCMqxHT
+Eq2Zclr7yvm4M8i1tgnb3V22dpreJxccCQIeM/EZIg7behgeBDPPSPGD4QPEMz0u
+dJOlNbT9jBpg0yrjruoxmv6gT1b7BG7fqre0kSx+BCm69apLX/kP0mlWUokjP/Jx
+3V4aFGe44tJQsoWyM6Fvyz2Rah3n+b3cMC1KCEcB9eQAxoYtjfKiJTptci48Q1MX
+8m+sBJ3zGVAwdSPWdp+1FJeQgE448J71qPSrIRDUkohWlLQRAAJdTXfv+7VznIX0
+2RPd55fS6cqP9TH2Ubrvxt+FyEb3uJjj2Tg6wsxOKvBm62yW1I2koODm68yUYCAN
+andRCfPyZLev4lnRGmnRISwJ4CfiOPw32WjWN0Pkp1VYj/tiZC/0uhqwn9dKikh1
+keGp2QuRDuFWqZNT59b7t63uITTGlHtCEWffKbpO7JntGDHuS9/E9iEi5oC9eJrA
+neK4nGUYApFkHficjh9qY1zAYobRO1J3jCmE8pU4wa9mup2sTq8IaZpCU92RQkmm
+I0GIuglPs/C9g6D22mSrq7j0fXsQ10y5TcAsyMo8LuHs8ijZJ6fDwsHlO7Rc9qbs
+dWZyrDB084dxEfnGuIhIb2WPR2Tjs7GV+QyCtDWZDMG1WskWjOFrgENW3z18RiQo
+91ZSJvHU85iby/ZhEos4L03kwgQZxQIDAQABAoICAAu9VGc6Zs9vOieeRtUiH8SD
+7Vq4zKL1j7US2eoJhdhVbjSmYe2f9b+HFY44EobR46jg5Xp8uKePOhypkOStDJTp
+k13aX9X3lqiaegZgki2EJ+QAhLn2/OJmn3N+pojVU5QW2UyQzG13poBM1DZC9Xc3
+FfmEt9qxqLglWvKx/OUrsRSjojo0/DjExpp+wa1V5FiQgUv9mx/Q4DxCMY4v5maT
+eaDetim8znIvc0VBm70jS/5G896wqxPVAKyFSxWw3rTQ5Sn5jaFCSjvFhR1gdR0i
+RaSDU0Y+7ejORK3XW4XCRjCPXlcYODCYr0l1GFhmqN/qTT5LSXwmZPB4469Vs4yV
+N19RmWivwz+JWwqD8aq+yCDlPzfLmFwJzQA1Y2r1U116J9515IdCORber98wQ2PV
+S52WabN/zqDGVKGUKmyqS4J42N0FEBhtnq/GyLvgnAhmUXjEvH3MIt4iBjmXMpYd
+1rWSG+/yMhxM9rthhfEy/I0lX/A5j47vYQdtHbvii/QtevCVtCrmboUft9sq17RF
+CbjAjVfbi+1nPCiAvzWJ6S3IQLYReCjFJ1Xo7vswSV/ZEH3NFw8O1GIcOHcnot9h
+M90UgrIhkxe0FcoHdJJsZs5OlO+YMSn40eHfOfn+K4SzJBQaz0cH+XEZUs4o42yb
+I/JO+SKAY576IDOD5kD5AoIBAQDhSrbnFrzQYZnSQaN8kvzW1M6WKHAnp0WuXm8a
+1XO6a8lXJC2Yv+wCysCmZwnwEjCS2iuehM48ZTE9aoZPo2UaUJh02CB7/cYjDOJt
+3CByqnGLWjjxtp6/Q5BGKFsC/DBLsfBgE+0H2JKBbs5PHRdPuQkwHLP8AcII1ig1
+FVs2EHk2plQnQvjVCSj+NPpKsusw6vzqu0C/Oj6Ywu2Wi2arSP0eYX9ppDgw1sug
+BOR771lz9qkgBmDM+WuVpQsyX5SjdKVs4EQ42YTPMCWSRJGpT5C2BJC8gbgUAD+8
+hQ96uCb9ymQOW8chUSukpKvVMPURSMYGXnu7vyFWyH9ks9udAoIBAQDWQztVB81d
+eGTyLd7eauUCm2CUssH1EAJsS9Diu8igbc2GO7FEa+tWE37h3UsHQe5cuSwjriQz
+XY0+pjqMQRkndnPyBoG257dwBxR0cJWgXtAb51R6UWday3qCdrUo10NSPy9tjXjK
+RN3+wc0a7/aAX9+Urzc7Qosh8UVJ3wZuoc7On0nQg+huauoEaL8D+sSFqHwlIjsf
+3n8iI/xWDacfF4iVq3vXgNmTSFiQNs1EpfH5UaqXIb+//ml7ERPl6tmgSd1UhcbO
+mN2e9EvHwQowE3SWaiPOt2XPx3RzYDtTQSod8YmXFrPbh0WdnO4xZ7AuUdCJud8w
+XErv2YHnzEJJAoIBAGdHtSmjRtPQqo+0/5mwWLCzxjEYQLItAMi7CfwnNnKTzy1f
+rHeGJE/zWvXt7qRb8mCgG7cD8vfE/BnHp+MCaOrzX7DRE7ND131h/ruWWlm2wW68
+4bYNniDYfF9tSKvJqOpKnIOvHs6l/iPQBExIbdNiZE/mGKzCsY0TgEM1kybpzme7
+QIDvNtuS43QGHWf5NdCrKV8CkOAZd3DYi8qkBWEoiMFQuPRZEFlzXs3w8D3QsBV1
+UnsX8XCGN0fW7ZceMins45lSBnR5Y2UIEXFIde5ER3bqCOAiJ50jsBRge4Qqv9VA
+3zWl5Vfkujk0NIH7e5182ys4TUj4ifQa3ivwOBECggEAF7xC6lx+54faxulF8yWs
+UOmdfVuAGQG5Av4zGarrwrnnNqOOM6Iw48wtFiBJm3g2S5dHyHwWDoqihvorKjZb
+7v80QO9vly98JrDiFzQRnz5hl3W86f/yjyBTZfh4gRm3n3jYbC5r3xxZ60rUydMj
+X30/a10tpSbt+sibgF9wevj5y/HhX3P9X54AZpSj9HDnLFdJyWNNYW5obwPFhFLm
+3I7i1pG0ml7vu10cUn1/p8cqUxA08aEPeNlaHgP6TFID4bnNBvv61hAhHOa7Llm4
+IzNEixUe+lter/HMeKuEZuilHcQQFeix6/PERn2H9XkjDz6I93jbvKO8uW1C8sax
+4QKCAQEAjUG5bRNWQj16zuKm+5qE8srAxKFQ2XwIagS5AFM5ATrj880JJFcLRy+y
+c+RzqRgt5G3G6dwT97NHV2XyKhGuVkTpEPxxcb+o3Nub8uixnIs4vG+V5PSpi7FM
+iGqSCQK7A6L+ModCKbrZfNMCveZkwUsCdA6MFDLJp1j0DiWXG67x3o9LeO42ScOA
+eEnRcm+iX+MO7rtRxKLGNRkvqI9h7brRCN+CCfegx625/1NQDWT3IjV9G18EUAY0
+MYwhyyrrHYEsvDgVof6BNp1Lu7S9jNdKIRcJCnzgu/DLlH6krtd5SQcUqGKJ4zz6
+hjoLGicSOTDC3QxG/BwQQLVmR2Btsw==
 -----END PRIVATE KEY-----
 EOD;
 
@@ -59,12 +87,12 @@ EOD;
         $signature = '';
         openssl_sign($payload, $signature, $privateKey, OPENSSL_ALGO_SHA256);
 
-        $content = base64_encode($payload) . '.' . base64_encode($signature);
+        $content = base64_encode($payload).'.'.base64_encode((string) $signature);
 
         file_put_contents(base_path('license.key'), $content);
 
-        $this->info("License key generated for domain: {$domain}");
-        $this->info("Expires at: {$expires}");
+        $this->info('License key generated for domain: '.$domain);
+        $this->info('Expires at: '.$expires);
 
         return 0;
     }

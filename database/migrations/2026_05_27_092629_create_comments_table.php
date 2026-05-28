@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('comments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->morphs('commentable'); // posts or listings
-            $table->text('content');
-            $table->boolean('is_approved')->default(false);
-            $table->timestamps();
+        Schema::create('comments', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
+            $blueprint->morphs('commentable'); // posts or listings
+            $blueprint->text('content');
+            $blueprint->boolean('is_approved')->default(false);
+            $blueprint->timestamps();
 
             // Performance index
-            $table->index(['commentable_type', 'commentable_id', 'is_approved'], 'comments_approv_idx');
+            $blueprint->index(['commentable_type', 'commentable_id', 'is_approved'], 'comments_approv_idx');
         });
     }
 

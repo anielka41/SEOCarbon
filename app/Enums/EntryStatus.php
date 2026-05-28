@@ -8,7 +8,7 @@ use Filament\Support\Contracts\HasColor;
 use Filament\Support\Contracts\HasIcon;
 use Filament\Support\Contracts\HasLabel;
 
-enum EntryStatus: string implements HasLabel, HasColor, HasIcon
+enum EntryStatus: string implements HasColor, HasIcon, HasLabel
 {
     case Draft = 'draft';
     case Pending = 'pending';

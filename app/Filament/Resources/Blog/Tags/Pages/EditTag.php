@@ -1,0 +1,15 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Filament\Resources\Blog\Tags\Pages;
+
+use App\Filament\Resources\Blog\Tags\TagResource;
+use Filament\Resources\Pages\EditRecord;
+use Override;
+
+final class EditTag extends EditRecord
+{
+    #[Override]
+    protected static string $resource = TagResource::class;
+}

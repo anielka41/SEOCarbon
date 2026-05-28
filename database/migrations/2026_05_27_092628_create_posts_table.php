@@ -13,22 +13,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
-            $table->string('title');
-            $table->string('slug')->unique();
-            $table->text('excerpt')->nullable();
-            $table->longText('content');
-            $table->string('featured_image')->nullable();
-            $table->string('status')->default('draft');
-            $table->timestamp('published_at')->nullable();
-            $table->timestamps();
+        Schema::create('posts', function (Blueprint $blueprint): void {
+            $blueprint->id();
+            $blueprint->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $blueprint->foreignId('category_id')->nullable()->constrained('categories')->nullOnDelete();
+            $blueprint->string('title');
+            $blueprint->string('slug')->unique();
+            $blueprint->text('excerpt')->nullable();
+            $blueprint->longText('content');
+            $blueprint->string('featured_image')->nullable();
+            $blueprint->string('status')->default('draft');
+            $blueprint->timestamp('published_at')->nullable();
+            $blueprint->timestamps();
 
             // Performance indexes
-            $table->index(['status', 'published_at']);
-            $table->fullText(['title', 'content']);
+            $blueprint->index(['status', 'published_at']);
+
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $blueprint->fullText(['title', 'content']);
+            }
         });
     }
 

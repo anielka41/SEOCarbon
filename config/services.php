@@ -37,4 +37,12 @@ return [
         ],
     ],
 
+    'ksef' => [
+        'mode' => env('KSEF_MODE', 'test'),
+        'nip' => env('KSEF_NIP'),
+        'token' => env('KSEF_TOKEN'),
+        'cert_path' => env('KSEF_CERT_PATH'),
+        'cert_passphrase' => env('KSEF_CERT_PASSPHRASE'),
+    ],
+
 ];
