@@ -18,32 +18,36 @@ final class UserSchema
     {
         return $schema
             ->components([
-                Section::make('Basic Information')
+                Section::make(strval(__('Basic Information')))
                     ->schema([
                         TextInput::make('name')
                             ->required()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->label(strval(__('Name'))),
                         TextInput::make('email')
                             ->email()
                             ->required()
                             ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->label(strval(__('Email'))),
                         TextInput::make('password')
                             ->password()
                             ->dehydrated(fn (?string $state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ->label(strval(__('Password'))),
                     ])->columns(2),
 
-                Section::make('Roles & Status')
+                Section::make(strval(__('Roles & Status')))
                     ->schema([
                         Select::make('roles')
                             ->relationship('roles', 'name')
                             ->multiple()
                             ->preload()
-                            ->searchable(),
+                            ->searchable()
+                            ->label(strval(__('Roles'))),
                         DateTimePicker::make('email_verified_at')
-                            ->label('Email Verified At'),
+                            ->label(strval(__('Email Verified At'))),
                     ])->columns(2),
             ]);
     }

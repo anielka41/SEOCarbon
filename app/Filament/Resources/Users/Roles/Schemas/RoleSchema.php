@@ -15,21 +15,24 @@ final class RoleSchema
     {
         return $schema
             ->components([
-                Section::make('Role Details')
+                Section::make(strval(__('Role Details')))
                     ->schema([
                         TextInput::make('name')
                             ->required()
                             ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->label(strval(__('Name'))),
                         TextInput::make('guard_name')
                             ->required()
                             ->maxLength(255)
-                            ->default('web'),
+                            ->default('web')
+                            ->label(strval(__('Guard Name'))),
                         Select::make('permissions')
                             ->relationship('permissions', 'name')
                             ->multiple()
                             ->preload()
-                            ->searchable(),
+                            ->searchable()
+                            ->label(strval(__('Permissions'))),
                     ])->columns(2),
             ]);
     }

@@ -14,16 +14,18 @@ final class PermissionSchema
     {
         return $schema
             ->components([
-                Section::make('Permission Details')
+                Section::make(strval(__('Permission Details')))
                     ->schema([
                         TextInput::make('name')
                             ->required()
                             ->maxLength(255)
-                            ->unique(ignoreRecord: true),
+                            ->unique(ignoreRecord: true)
+                            ->label(strval(__('Name'))),
                         TextInput::make('guard_name')
                             ->required()
                             ->maxLength(255)
-                            ->default('web'),
+                            ->default('web')
+                            ->label(strval(__('Guard Name'))),
                     ])->columns(2),
             ]);
     }

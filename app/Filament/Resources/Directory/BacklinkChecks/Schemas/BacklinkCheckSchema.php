@@ -16,19 +16,23 @@ final class BacklinkCheckSchema
     {
         return $schema
             ->components([
-                Section::make('Check Details')
+                Section::make(strval(__('Check Details')))
                     ->schema([
                         Select::make('directory_entry_id')
                             ->relationship('entry', 'name')
                             ->required()
-                            ->searchable(),
+                            ->searchable()
+                            ->label(strval(__('Entry'))),
                         TextInput::make('status')
-                            ->disabled(),
+                            ->disabled()
+                            ->label(strval(__('Status'))),
                         DateTimePicker::make('checked_at')
-                            ->disabled(),
+                            ->disabled()
+                            ->label(strval(__('Checked At'))),
                         TextInput::make('error_message')
                             ->columnSpanFull()
-                            ->disabled(),
+                            ->disabled()
+                            ->label(strval(__('Error Message'))),
                     ])->columns(2),
             ]);
     }
