@@ -12,6 +12,9 @@ use App\Filament\Resources\Payments\Invoices\Pages\ViewInvoice;
 use App\Filament\Resources\Payments\Invoices\Schemas\InvoiceSchema;
 use App\Filament\Resources\Payments\Invoices\Tables\InvoicesTable;
 use BackedEnum;
+use Filament\Infolists\Components\Section as InfolistSection;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
@@ -47,6 +50,48 @@ final class InvoiceResource extends Resource
     public static function table(Table $table): Table
     {
         return InvoicesTable::configure($table);
+    }
+
+    #[Override]
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                InfolistSection::make(strval(__('Invoice Details')))
+                    ->schema([
+                        TextEntry::make('number')
+                            ->label(strval(__('Number'))),
+                        TextEntry::make('user.name')
+                            ->label(strval(__('User'))),
+                        TextEntry::make('listing.name')
+                            ->label(strval(__('DirectoryEntry'))),
+                        TextEntry::make('currency')
+                            ->label(strval(__('Currency'))),
+                        TextEntry::make('status')
+                            ->badge()
+                            ->color(fn (string $state): string => match ($state) {
+                                'draft' => 'gray',
+                                'issued' => 'info',
+                                'confirmed' => 'success',
+                                'cancelled' => 'danger',
+                                default => 'gray',
+                            })
+                            ->label(strval(__('Status'))),
+                    ])->columns(2),
+
+                InfolistSection::make(strval(__('Financials')))
+                    ->schema([
+                        TextEntry::make('amount_net')
+                            ->money(fn ($record) => $record->currency)
+                            ->label(strval(__('Amount Net'))),
+                        TextEntry::make('amount_vat')
+                            ->money(fn ($record) => $record->currency)
+                            ->label(strval(__('Amount VAT'))),
+                        TextEntry::make('amount_gross')
+                            ->money(fn ($record) => $record->currency)
+                            ->label(strval(__('Amount Gross'))),
+                    ])->columns(3),
+            ]);
     }
 
     #[Override]

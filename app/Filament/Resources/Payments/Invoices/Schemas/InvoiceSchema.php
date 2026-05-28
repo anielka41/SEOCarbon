@@ -41,10 +41,10 @@ final class InvoiceSchema
 
                     Select::make('status')
                         ->options([
-                            'draft' => __('Draft'),
-                            'issued' => __('Issued'),
-                            'confirmed' => __('Confirmed'),
-                            'cancelled' => __('Cancelled'),
+                            'draft' => strval(__('Draft')),
+                            'issued' => strval(__('Issued')),
+                            'confirmed' => strval(__('Confirmed')),
+                            'cancelled' => strval(__('Cancelled')),
                         ])
                         ->required()
                         ->label(strval(__('Status'))),

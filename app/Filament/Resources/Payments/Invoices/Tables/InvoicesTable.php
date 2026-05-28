@@ -13,6 +13,7 @@ use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
+use Filament\Support\Icons\Heroicon;
 use Filament\Notifications\Notification;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
@@ -63,7 +64,7 @@ final class InvoicesTable
                     EditAction::make(),
                     Action::make('sendToKsef')
                         ->label(strval(__('Send to KSeF')))
-                        ->icon('heroicon-o-paper-airplane')
+                        ->icon(Heroicon::PaperAirplane)
                         ->color('success')
                         ->requiresConfirmation()
                         ->action(function (Invoice $invoice, KsefServiceContract $ksefServiceContract): void {

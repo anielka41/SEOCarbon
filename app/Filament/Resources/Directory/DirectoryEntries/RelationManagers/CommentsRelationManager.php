@@ -49,6 +49,7 @@ final class CommentsRelationManager extends RelationManager
         ]);
     }
 
+    #[Override]
     public function table(Table $table): Table
     {
         return $table

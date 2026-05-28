@@ -22,6 +22,7 @@ final class InvoicesRelationManager extends RelationManager
         return InvoiceSchema::configure($schema);
     }
 
+    #[Override]
     public function table(Table $table): Table
     {
         return InvoicesTable::configure($table);

@@ -19,6 +19,7 @@ use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
+use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
@@ -60,7 +61,7 @@ final class DirectoryEntrySchema
                         ->unique(ignoreRecord: true)
                         ->suffixAction(
                             Action::make('enrich')
-                                ->icon('heroicon-m-sparkles')
+                                ->icon(Heroicon::Sparkles)
                                 ->tooltip(strval(__('Enrich with AI')))
                                 ->action(function (Set $set, ?string $state, ContentEnrichmentService $contentEnrichmentService): void {
                                     if (! $state) {

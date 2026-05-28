@@ -22,9 +22,10 @@ final class BacklinkChecksRelationManager extends RelationManager
     #[Override]
     public function form(Schema $schema): Schema
     {
-        return $schema; // Read-only for now
+        return $schema->components([]);
     }
 
+    #[Override]
     public function table(Table $table): Table
     {
         return $table
