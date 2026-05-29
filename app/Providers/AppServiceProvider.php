@@ -30,8 +30,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /*
         \Illuminate\Support\Facades\Gate::before(function ($user, $ability) {
             return $user->hasRole(\App\Domain\Users\Enums\UserRole::SuperAdmin->value) ? true : null;
         });
+        */
     }
 }

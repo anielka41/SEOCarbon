@@ -64,9 +64,9 @@ final class DirectoryEntryResource extends Resource
     public static function getRelations(): array
     {
         return [
+            BacklinkChecksRelationManager::class,
             InvoicesRelationManager::class,
             CommentsRelationManager::class,
-            BacklinkChecksRelationManager::class,
         ];
     }
 

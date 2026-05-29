@@ -31,23 +31,24 @@ final class DirectoryEntrySchema
             Section::make(strval(__('DirectoryEntry Details')))
                 ->schema([
                     Select::make('category_id')
-                        ->relationship('category', 'name', modifyQueryUsing: fn (Builder $builder) => $builder->where('type', 'directory'))
+                        ->relationship('category', 'name', fn (Builder $query) => $query->where('type', 'directory'))
+                        ->required()
                         ->searchable()
                         ->preload()
-                        ->required()
-                        ->label(strval(__('DirectoryCategory'))),
+                        ->label(strval(__('Category'))),
 
                     Select::make('package_id')
-                        ->relationship('package', 'name', modifyQueryUsing: fn (Builder $builder) => $builder->where('is_active', true))
+                        ->relationship('package', 'name', fn (Builder $query) => $query->where('is_active', true))
                         ->searchable()
                         ->preload()
                         ->live()
-                        ->label(strval(__('DirectoryGroup'))),
+                        ->label(strval(__('Package'))),
 
                     TextInput::make('name')
                         ->required()
+                        ->maxLength(255)
                         ->live(onBlur: true)
-                        ->afterStateUpdated(fn (Set $set, ?string $state): mixed => $set('slug', Str::slug($state ?? '')))
+                        ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state ?? '')))
                         ->label(strval(__('Name'))),
 
                     TextInput::make('slug')
@@ -86,13 +87,8 @@ final class DirectoryEntrySchema
                                             }
                                         }
 
-                                        if (isset($data['tags']) && is_array($data['tags'])) {
-                                            $tagIds = [];
-                                            foreach ($data['tags'] as $tagName) {
-                                                $tag = Tag::query()->firstOrCreate(['name' => $tagName], ['slug' => Str::slug($tagName)]);
-                                                $tagIds[] = $tag->id;
-                                            }
-
+                                        if (isset($data['tags_suggestion'])) {
+                                            $tagIds = Tag::query()->whereIn('name', (array) $data['tags_suggestion'])->pluck('id')->toArray();
                                             $set('tags', $tagIds);
                                         }
                                     }
@@ -113,15 +109,6 @@ final class DirectoryEntrySchema
                         ->multiple()
                         ->searchable()
                         ->preload()
-                        ->createOptionForm([
-                            TextInput::make('name')
-                                ->required()
-                                ->live(onBlur: true)
-                                ->afterStateUpdated(fn (Set $set, ?string $state): mixed => $set('slug', Str::slug($state ?? ''))),
-                            TextInput::make('slug')
-                                ->required()
-                                ->unique('tags', 'slug'),
-                        ])
                         ->label(strval(__('Tags'))),
 
                     Textarea::make('description')
@@ -135,21 +122,20 @@ final class DirectoryEntrySchema
                         ->label(strval(__('Status'))),
 
                     Toggle::make('is_promoted')
-                        ->default(false)
                         ->label(strval(__('Is Promoted'))),
+                ])
+                ->columns(2),
 
+            Section::make(strval(__('Media')))
+                ->schema([
                     FileUpload::make('logo_path')
                         ->image()
-                        ->directory('listings/logos')
-                        ->visibility('public')
-                        ->disabled(fn (Get $get): bool => ! ($get('package_id') && (DirectoryGroup::query()->find($get('package_id'))?->can_upload_logo ?? false)))
+                        ->directory('logos')
                         ->label(strval(__('Logo'))),
 
                     FileUpload::make('thumbnail_path')
                         ->image()
-                        ->directory('listings/thumbnails')
-                        ->visibility('public')
-                        ->disabled(fn (Get $get): bool => ! ($get('package_id') && (DirectoryGroup::query()->find($get('package_id'))?->can_upload_thumbnail ?? false)))
+                        ->directory('thumbnails')
                         ->label(strval(__('Thumbnail'))),
                 ])
                 ->columns(2),
