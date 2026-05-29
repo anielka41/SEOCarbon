@@ -65,22 +65,21 @@ final class DirectoryCategorySchema
                         ->label(strval(__('Is Active'))),
                 ])
                 ->columns(2),
-
-            Section::make(strval(__('FAQ Schema')))
-                ->schema([
-                    Repeater::make('faq')
-                        ->schema([
-                            TextInput::make('question')
-                                ->required()
-                                ->label(strval(__('Question'))),
-                            Textarea::make('answer')
-                                ->required()
-                                ->label(strval(__('Answer'))),
-                        ])
-                        ->columnSpanFull()
-                        ->label(strval(__('FAQ Items'))),
-                ])
-                ->collapsible(),
+Section::make(strval(__('FAQ Schema')))
+    ->schema([
+        Repeater::make('faq')
+            ->schema([
+                TextInput::make('question')
+                    ->required()
+                    ->label(strval(__('Question'))),
+                Textarea::make('answer')
+                    ->required()
+                    ->label(strval(__('Answer'))),
+            ])
+            ->columnSpanFull()
+            ->label(strval(__('FAQ Items'))),
+    ])
+    ->collapsible(),
 
             Section::make(strval(__('SEO')))
                 ->schema([

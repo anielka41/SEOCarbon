@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Blog\Models;
 
 use App\Domain\Directory\Models\DirectoryCategory;
+use App\Domain\Shared\Models\Review;
 use App\Domain\Shared\Traits\HasUuid;
 use App\Domain\Users\Models\User;
 use App\Enums\EntryStatus;
@@ -80,6 +81,14 @@ class Post extends Model
     public function comments(): MorphMany
     {
         return $this->morphMany(PostComment::class, 'commentable');
+    }
+
+    /**
+     * @return MorphMany<Review, $this>
+     */
+    public function reviews(): MorphMany
+    {
+        return $this->morphMany(Review::class, 'reviewable');
     }
 
     public function getFeaturedImageUrl(int $width = 800, int $height = 600): ?string

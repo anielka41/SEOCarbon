@@ -7,6 +7,7 @@ namespace App\Domain\Directory\Models;
 use App\Domain\Blog\Models\PostComment;
 use App\Domain\Blog\Models\Tag;
 use App\Domain\Payments\Models\Invoice;
+use App\Domain\Shared\Models\Review;
 use App\Domain\Shared\Traits\HasUuid;
 use App\Domain\Users\Models\User;
 use App\Enums\EntryStatus;
@@ -108,6 +109,14 @@ class DirectoryEntry extends Model
     public function invoices(): HasMany
     {
         return $this->hasMany(Invoice::class, 'listing_id');
+    }
+
+    /**
+     * @return MorphMany<Review, $this>
+     */
+    public function reviews(): MorphMany
+    {
+        return $this->morphMany(Review::class, 'reviewable');
     }
 
     /**
