@@ -36,7 +36,7 @@ final class DirectoryCategorySchema
                         ->relationship(
                             'parent',
                             'name',
-                            modifyQueryUsing: fn (Builder $builder, Get $get) => $builder->where('type', $get('type'))
+                            modifyQueryUsing: fn (Builder $builder) => $builder
                         )
                         ->searchable()
                         ->preload()

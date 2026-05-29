@@ -12,11 +12,10 @@ use App\Filament\Resources\Payments\Invoices\Pages\ViewInvoice;
 use App\Filament\Resources\Payments\Invoices\Schemas\InvoiceSchema;
 use App\Filament\Resources\Payments\Invoices\Tables\InvoicesTable;
 use BackedEnum;
-use Filament\Infolists\Components\Section as InfolistSection;
 use Filament\Infolists\Components\TextEntry;
-use Filament\Infolists\Infolist;
 use Filament\Resources\Pages\PageRegistration;
 use Filament\Resources\Resource;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
@@ -53,11 +52,11 @@ final class InvoiceResource extends Resource
     }
 
     #[Override]
-    public static function infolist(Infolist $infolist): Infolist
+    public static function infolist(Schema $schema): Schema
     {
-        return $infolist
-            ->schema([
-                InfolistSection::make(strval(__('Invoice Details')))
+        return $schema
+            ->components([
+                Section::make(strval(__('Invoice Details')))
                     ->schema([
                         TextEntry::make('number')
                             ->label(strval(__('Number'))),
@@ -79,7 +78,7 @@ final class InvoiceResource extends Resource
                             ->label(strval(__('Status'))),
                     ])->columns(2),
 
-                InfolistSection::make(strval(__('Financials')))
+                Section::make(strval(__('Financials')))
                     ->schema([
                         TextEntry::make('amount_net')
                             ->money(fn ($record) => $record->currency)
